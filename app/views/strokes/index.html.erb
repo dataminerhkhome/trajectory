@@ -1,0 +1,34 @@
+<div class="row">
+
+
+  <div class="col-sm-12">
+    <table class="table table-striped table-sm">
+      <thead class="thead-default">
+        <tr>
+          <th>Speed</th>
+          <th>Angle</th>
+          <th>Height</th>
+          <th>Rise Time(s)</th>
+          <th>Hit Distance</th>
+          <th>Hit Time(s)</th>
+          <th>Flight Distance</th>
+          <th>Flight Time</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @strokes.each do |stroke| %>
+          <tr>
+            <th scope="row"><%= stroke.velocity %></th>
+            <td><%= stroke.angle %></td>
+            <td><%= stroke.height.round(2) %></td>
+            <td><%= stroke.rise_time.round(2) %></td>
+            <td><%= stroke.hit_point.distance.round(2) %></td>
+            <td><%= (stroke.hit_point.flight_time*0.01).round(2) %></td>
+            <td><%= stroke.ground_point.distance.round(2) %></td>
+            <td><%= (stroke.ground_point.flight_time*0.01).round(2) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
