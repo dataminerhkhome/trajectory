@@ -30,8 +30,8 @@ ActiveRecord::Schema.define(version: 20160503211932) do
   add_index "positions", ["stroke_id"], name: "index_positions_on_stroke_id", using: :btree
 
   create_table "strokes", force: true do |t|
-    t.float    "velocity"
-    t.float    "angle"
+    t.integer  "velocity"
+    t.integer  "angle"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.float    "height"
