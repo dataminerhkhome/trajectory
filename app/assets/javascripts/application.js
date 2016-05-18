@@ -12,6 +12,8 @@
 //
 
 //= require jquery
+//= require jquery_ujs
+//= require bootstrap-sprockets
 //= require turbolinks
 //= require d3-3.5.5.js
 //= require crossfilter.min-1311.js

@@ -1,18 +1,30 @@
 <hr/>
 
 <div class="row">
-   <div class="col-sm-12">
-   <%= select(:stroke, :angle, @angles,:selected=>params[:angle] )%>  
-     </div>
-  
+  <div class="col-sm-6">
+    <div class="btn-group" data-toggle="buttons">
+  <label class="btn btn-primary active">
+    <input type="radio" name="options" id="angle_option" autocomplete="off" checked value="angle"> Angle
+  </label>
+  <label class="btn btn-primary">
+    <input type="radio" name="options" id="speed_option" autocomplete="off" value="speed"> Speed
+  </label>
+
+</div>
+  </div>
+  <div class="col-sm-6">
+    <div class="angle_sel">
+    Angle:<%= select(:stroke, :angle, @angles,:selected=>params[:angle] )%>
+    </div>
+    <div class="speed_sel" style="display:none;">
+    Speed:<%= select(:stroke, :velocity, @speeds,:selected=>params[:speed] )%>
+    </div>
+  </div>
+
 </div>
 <div id="test"></div>
 
 <div class="row">
-
-
-
-
 
   <div class="col-sm-12">
     <table class="table table-striped table-sm">
@@ -30,16 +42,16 @@
       </thead>
       <tbody>
         <% @strokes.each do |stroke| %>
-          <tr>
-            <th scope="row"><%= stroke.velocity %></th>
-            <td><%= stroke.angle %></td>
-            <td><%= stroke.height.round(2) %></td>
-            <td><%= stroke.rise_time.round(2) %></td>
-            <td><%= stroke.hit_point.distance.round(2) %></td>
-            <td><%= (stroke.hit_point.flight_time*0.01).round(2) %></td>
-            <td><%= stroke.ground_point.distance.round(2) %></td>
-            <td><%= (stroke.ground_point.flight_time*0.01).round(2) %></td>
-          </tr>
+        <tr>
+          <th scope="row"><%= stroke.velocity %></th>
+          <td><%= stroke.angle %></td>
+          <td><%= stroke.height.round(2) %></td>
+          <td><%= stroke.rise_time.round(2) %></td>
+          <td><%= stroke.hit_point.distance.round(2) %></td>
+          <td><%= (stroke.hit_point.flight_time*0.01).round(2) %></td>
+          <td><%= stroke.ground_point.distance.round(2) %></td>
+          <td><%= (stroke.ground_point.flight_time*0.01).round(2) %></td>
+        </tr>
         <% end %>
       </tbody>
     </table>

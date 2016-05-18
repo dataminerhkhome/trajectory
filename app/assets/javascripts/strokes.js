@@ -4,7 +4,7 @@ $(document).ready(function() {
   var chart = dc.seriesChart("#test");
   var experiments=gon.positions;
   ndx = crossfilter(experiments);
-  runDimension = ndx.dimension(function(d) {return [+d.ini_velocity, +d.distance]; });
+  runDimension = ndx.dimension(function(d) {return [+d.ini_variable, +d.distance]; });
   runGroup = runDimension.group().reduceSum(function(d) { return +d.height; });
 
   chart
@@ -34,5 +34,16 @@ $(document).ready(function() {
 
 $(document).on("change","#stroke_angle",function(e){
   var url="strokes?angle="+$(this).val();
+  location.href=url;
+});
+$(document).on("click",".btn",function(){
+  var option=$(this).find("input").val();
+  var url;
+  if(option=="angle"){
+    url="strokes?angle="+$("#stroke_angle").val();
+    
+  }else{
+    url="strokes?velocity="+$("#stroke_velocity").val();
+  }
   location.href=url;
 });
