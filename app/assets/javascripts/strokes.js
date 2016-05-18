@@ -36,6 +36,11 @@ $(document).on("change","#stroke_angle",function(e){
   var url="strokes?angle="+$(this).val();
   location.href=url;
 });
+
+$(document).on("change","#stroke_velocity",function(e){
+  var url="strokes?velocity="+$(this).val();
+  location.href=url;
+});
 $(document).on("click",".btn",function(){
   var option=$(this).find("input").val();
   var url;

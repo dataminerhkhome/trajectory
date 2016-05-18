@@ -13,11 +13,11 @@
 </div>
   </div>
   <div class="col-sm-6">
-    <div class="angle_sel">
+    <div class='angle_sel <%= "inactive" if params.key? :velocity %>'>
     Angle:<%= select(:stroke, :angle, @angles,:selected=>params[:angle] )%>
     </div>
-    <div class="speed_sel" style="display:none;">
-    Speed:<%= select(:stroke, :velocity, @speeds,:selected=>params[:speed] )%>
+    <div class='speed_sel <%= "active" if params.key? :velocity %>'>
+    Speed:<%= select(:stroke, :velocity, @speeds,:selected=>params[:velocity] )%>
     </div>
   </div>
 
