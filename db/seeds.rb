@@ -14,11 +14,11 @@ ActiveRecord::Base.connection.reset_pk_sequence!('strokes')
 ActiveRecord::Base.connection.reset_pk_sequence!('positions')
 
 # Account
-vt=6.86
+vt=6.50
 g=9.8
 vstart=25.0
 angle_start=15.0
-(15..50).step(5).each do |angle_i|
+(10..60).step(5).each do |angle_i|
   angle=angle_i.to_f
 
   sin_r=Math.sin(angle/180*Math::PI)
