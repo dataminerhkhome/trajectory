@@ -14,6 +14,12 @@ class Curve:
     def dis_y(self,u0,q0,q1):
         fun=lambda q: -sin(q)/cos(q)**3*(u0*cos(q0))**2/9.8/self.__curve_s(u0,q0,q)
         return scipy.integrate.quad(fun,q0,q1)
+    def vel_x(self,u0,q0,q1):
+        ux=u0*cos(q0)*self._integrate_f(q1)**(-1/2)
+        return ux
+
+        
+        
    
 # U0=37.6
 U8=6.7
