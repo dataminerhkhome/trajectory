@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160503211932) do
+ActiveRecord::Schema.define(version: 20160606220648) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,11 +20,11 @@ ActiveRecord::Schema.define(version: 20160503211932) do
     t.integer  "stroke_id"
     t.float    "distance"
     t.float    "height"
-    t.integer  "flight_time"
     t.float    "x_speed"
     t.float    "y_speed"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.float    "flight_time"
   end
 
   add_index "positions", ["stroke_id"], name: "index_positions_on_stroke_id", using: :btree

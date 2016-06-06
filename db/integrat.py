@@ -1,3 +1,4 @@
+import psycopg2
 import scipy.integrate
 from math import *
 class Curve:
@@ -10,34 +11,60 @@ class Curve:
         return (u0*cos(q0)/self.u8)**2*(self.__intgrate_f(q0)-self.__intgrate_f(q))+1
     def dis_x(self,u0,q0,q1):
         fun=lambda q: -1.0/cos(q)**2*(u0*cos(q0))**2/9.8/self.__curve_s(u0,q0,q)
-        return scipy.integrate.quad(fun,q0,q1)
+        res, error= scipy.integrate.quad(fun,q0,q1)
+        return res
     def dis_y(self,u0,q0,q1):
         fun=lambda q: -sin(q)/cos(q)**3*(u0*cos(q0))**2/9.8/self.__curve_s(u0,q0,q)
-        return scipy.integrate.quad(fun,q0,q1)
+        res,error=scipy.integrate.quad(fun,q0,q1)
+        return res
     def vel_x(self,u0,q0,q1):
-        ux=u0*cos(q0)*self._integrate_f(q1)**(-1/2)
+        ux=u0*cos(q0)*self.__curve_s(u0,q0,q1)**(-1/2)
         return ux
+    def escape_t(self,u0,q0,q1):
+        fun=lambda q: -u0*cos(q0)/cos(q)**2/9.8*self.__curve_s(u0,q0,q1)**(-0.5)
+        res,error= scipy.integrate.quad(fun,q0,q1)
+        return res
 
         
         
    
 # U0=37.6
 U8=6.7
-curve=Curve(U8)     
+curve=Curve(U8)   
+connect_str = "dbname='trajectory_dev' user='postgres' host='localhost' " + \
+                  "password='postgres'"
+# use our connection values to establish a connection
+conn = psycopg2.connect(connect_str)
+# create a psycopg2 cursor that can execute queries
+cursor = conn.cursor()
+  
 
-for angle_i in range(10,60,10):
+
+for angle_i in range(30,40,10):
     Q0=radians(angle_i)
     
-    for speed_i in range(20,60,10):
+    for speed_i in range(50,60,10):
         height=curve.dis_y(speed_i,Q0,0)
+        rise_t=curve.escape_t(speed_i,Q0,0)
+        cursor.execute("INSERT INTO strokes (velocity, angle, height, rise_time) VALUES (%s, %s, %s, %s)",(speed_i,angle_i,height,rise_t))
+        stroke_id=cursor.fetchone()[0]
 #         stroke= Stroke.create(velocity:speed_i,angle: angle_i, height:y_top,rise_time:t_top)
-        print("{0} for speed {1} with {2}".format(height,speed_i,angle_i))
+        print("hight {2} rise_t {3} for speed {0} with {1}".format(speed_i,angle_i,height,rise_t))
         for c_q in range(angle_i-5,-70, -5):
+            print(c_q)
             Qe=radians(c_q)
             disx=curve.dis_x(speed_i,Q0,Qe)
             disy=curve.dis_y(speed_i,Q0,Qe)
-            print(disx)
-            print(disy)
+            vel_x=curve.vel_x(speed_i,Q0,Qe)
+            t=curve.escape_t(speed_i,Q0,Qe)
+            print("x={0},y={1},speed={2},time={3}".format(disx,disy,vel_x,t))
+            cursor.execute("INSERT INTO positions (x_speed, distance, height,flight_time,stroke_id) VALUES (%s, %s, %s,%s)",(vel_x,disx,disy,t,stroke_id))
+            
+conn.commit()
+cursor.close()
+conn.close()
+       
+      
             
             # position=Position.create!(x_speed:vx,y_speed:vy,distance:x,height:y,flight_time:index,stroke:stroke)
             

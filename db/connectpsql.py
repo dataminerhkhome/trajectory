@@ -10,9 +10,10 @@ try:
     # create a new table with a single column called "name"
 #     cursor.execute("""CREATE TABLE tutorials (name char(40));""")
     # run a SELECT statement - no data in there, but we can try it
-    cursor.execute("""SELECT * from strokes limit 10""")
+    cursor.execute("""INSERT INTO strokes (velocity, angle, height, rise_time) VALUES (30, 30, 3.0, 1.2)""")
+    cursor.execute("Select id from strokes")
     rows = cursor.fetchall()
     print(rows)
 except Exception as e:
-    print("Uh oh, can't connect. Invalid dbname, user or password?")
     print(e)
+    
