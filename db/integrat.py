@@ -40,27 +40,27 @@ cursor = conn.cursor()
   
 
 
-for angle_i in range(30,40,10):
+for angle_i in range(10,66,5):
     Q0=radians(angle_i)
     
-    for speed_i in range(50,60,10):
+    for speed_i in range(30,111,10):
         height=curve.dis_y(speed_i,Q0,0)
         rise_t=curve.escape_t(speed_i,Q0,0)
-        cursor.execute("INSERT INTO strokes (velocity, angle, height, rise_time) VALUES (%s, %s, %s, %s)",(speed_i,angle_i,height,rise_t))
+        cursor.execute("INSERT INTO strokes (velocity, angle, height, rise_time) VALUES (%s, %s, %s, %s) returning id",(speed_i,angle_i,height,rise_t))
         stroke_id=cursor.fetchone()[0]
 #         stroke= Stroke.create(velocity:speed_i,angle: angle_i, height:y_top,rise_time:t_top)
         print("hight {2} rise_t {3} for speed {0} with {1}".format(speed_i,angle_i,height,rise_t))
-        for c_q in range(angle_i-5,-70, -5):
-            print(c_q)
+        for c_q in range(angle_i,-86, -5):
             Qe=radians(c_q)
             disx=curve.dis_x(speed_i,Q0,Qe)
             disy=curve.dis_y(speed_i,Q0,Qe)
             vel_x=curve.vel_x(speed_i,Q0,Qe)
             t=curve.escape_t(speed_i,Q0,Qe)
-            print("x={0},y={1},speed={2},time={3}".format(disx,disy,vel_x,t))
-            cursor.execute("INSERT INTO positions (x_speed, distance, height,flight_time,stroke_id) VALUES (%s, %s, %s,%s)",(vel_x,disx,disy,t,stroke_id))
+#             print("x={0},y={1},time={2}".format(disx,disy,t))
+            cursor.execute("INSERT INTO positions (x_speed, distance, height,flight_time,stroke_id) VALUES (%s, %s, %s, %s, %s)",(vel_x,disx,disy,t,stroke_id))
+        conn.commit()
             
-conn.commit()
+
 cursor.close()
 conn.close()
        

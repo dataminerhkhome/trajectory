@@ -5,16 +5,16 @@ class StrokesController < ApplicationController
     if params.key? :velocity
           pvelocity=params[:velocity].to_i
     @strokes=Stroke.where(velocity:pvelocity)
-    t_points=(1..300).step(10).to_a
-    @positions=Position.where(flight_time:t_points,strokes:{velocity:pvelocity}).where("positions.height>-2.0").joins(:stroke)
+ 
+    @positions=Position.where(strokes:{velocity:pvelocity}).where("positions.height>-2.0").joins(:stroke)
     .select("positions.height,positions.distance, strokes.angle as ini_variable")
       
     else
-    params[:angle] ||="15.0"
+    params[:angle] ||="20"
     pangle=params[:angle].to_i
     @strokes=Stroke.where(angle:pangle)
-    t_points=(1..300).step(10).to_a
-    @positions=Position.where(flight_time:t_points,strokes:{angle:pangle}).where("positions.height>-2.0").joins(:stroke)
+    # t_points=(1..300).step(10).to_a
+    @positions=Position.where(strokes:{angle:pangle}).where("positions.height>-2.0").joins(:stroke)
     .select("positions.height,positions.distance, strokes.velocity as ini_variable")
     
 

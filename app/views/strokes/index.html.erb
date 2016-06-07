@@ -47,10 +47,10 @@
           <td><%= stroke.angle %></td>
           <td><%= stroke.height.round(2) %></td>
           <td><%= stroke.rise_time.round(2) %></td>
-          <td><%= stroke.hit_point.distance.round(2) %></td>
-          <td><%= (stroke.hit_point.flight_time*0.01).round(2) %></td>
-          <td><%= stroke.ground_point.distance.round(2) %></td>
-          <td><%= (stroke.ground_point.flight_time*0.01).round(2) %></td>
+          <td><%= stroke.hit_point.distance.round(2) if stroke.hit_point.present?%></td>
+          <td><%= (stroke.hit_point.flight_time).round(2) if stroke.hit_point.present? %></td>
+          <td><%= stroke.ground_point.distance.round(2) if stroke.ground_point.present?%></td>
+          <td><%= (stroke.ground_point.flight_time).round(2) if stroke.ground_point.present? %></td>
         </tr>
         <% end %>
       </tbody>
